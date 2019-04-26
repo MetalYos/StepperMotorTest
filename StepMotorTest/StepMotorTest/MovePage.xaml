@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StepMotorTest.MovePage">
+    <ContentPage.Content>
+        <StackLayout Margin="20,35,20,20">
+            <Label Text="Edit Move"
+                HorizontalOptions="Center" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.33*" />
+                    <ColumnDefinition Width="0.33*" />
+                    <ColumnDefinition Width="0.34*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*" />
+                    <RowDefinition Height="0.5*" />
+                </Grid.RowDefinitions>
+                <Label Text="Direction" />
+                <Picker x:Name="directionPicker"
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                        SelectedItem="{Binding Direction}"
+                        HorizontalOptions="FillAndExpand">
+                    <Picker.Items>
+                        <x:String>Forwards</x:String>
+                        <x:String>Backwards</x:String>
+                    </Picker.Items>
+                </Picker>
+                <Label Text="Distance"
+                       Grid.Column="0"
+                       Grid.Row="1"/>
+                <Stepper x:Name="distanceStepper"
+                         Grid.Column="1"
+                         Grid.Row="1"
+                         Minimum="0"
+                         Maximum="500"
+                         Increment="0.1"
+                         Value="{Binding Distance}"
+                         ValueChanged="DistanceStepper_ValueChanged"/>
+                <Label x:Name="distanceLabel"
+                       Grid.Column="2"
+                       Grid.Row="1"
+                       Text="" />
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.33*" />
+                    <ColumnDefinition Width="0.33*" />
+                    <ColumnDefinition Width="0.34*" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="saveMoveButton"
+                        Text="Save"
+                        Clicked="SaveMoveButton_Clicked" />
+                <Button x:Name="deleteMoveButton"
+                        Grid.Column="1"
+                        Text="Delete"
+                        Clicked="DeleteMoveButton_Clicked" />
+                <Button x:Name="cancelMoveButton"
+                        Grid.Column="2"
+                        Text="Cancel"
+                        Clicked="CancelMoveButton_Clicked" />
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
