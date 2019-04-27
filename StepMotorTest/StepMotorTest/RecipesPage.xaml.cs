@@ -22,6 +22,8 @@ namespace StepMotorTest
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            recipesListView.ItemsSource = null; // This is done to refresh list view
             recipesListView.ItemsSource = App.Database.GetRecipes();
         }
 

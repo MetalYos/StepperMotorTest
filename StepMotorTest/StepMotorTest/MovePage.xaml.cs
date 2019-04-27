@@ -30,18 +30,10 @@ namespace StepMotorTest
             Move updatedMove = (BindingContext as Move);
             if (App.Database.ContainsRecipe(updatedMove.RecipeID))
             {
-                Recipe recipe = App.Database.GetRecipe(updatedMove.RecipeID);
-                foreach (var move in recipe.Moves)
-                {
-                    if (move.ID == updatedMove.ID)
-                    {
-                        int index = recipe.Moves.IndexOf(move);
-                        recipe.Moves.Insert(index, updatedMove);
-                        recipe.Moves.Remove(move);
-                        await Navigation.PopAsync();
-                    }
-                }
-                recipe.Moves.Add(updatedMove);
+                if (!App.Database.UpdateMove(updatedMove))
+                    App.Database.AddMoveToRecipe(updatedMove);
+
+                await Navigation.PopAsync();
             }
             else
             {
@@ -52,23 +44,10 @@ namespace StepMotorTest
         async void DeleteMoveButton_Clicked(object sender, EventArgs e)
         {
             Move currentMove = (BindingContext as Move);
-            if (App.Database.ContainsRecipe(currentMove.RecipeID))
-            {
-                Recipe recipe = App.Database.GetRecipe(currentMove.RecipeID);
-                foreach (var move in recipe.Moves)
-                {
-                    if (move.ID == currentMove.ID)
-                    {
-                        recipe.Moves.Remove(move);
-                        await Navigation.PopAsync();
-                    }
-                }
-                await DisplayAlert("Error", "Move does not exist in the Recipe! Can't delete it.", "Ok");
-            }
+            if (App.Database.DeleteMove(currentMove))
+                await Navigation.PopAsync();
             else
-            {
-                await DisplayAlert("Error", "Recipe does not exist in the Database! Can't delete it.", "Ok");
-            }
+                await DisplayAlert("Error", "Recipe/Move does not exist in the Database! Can't delete it.", "Ok");
         }
 
         async void CancelMoveButton_Clicked(object sender, EventArgs e)

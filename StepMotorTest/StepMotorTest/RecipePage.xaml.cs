@@ -23,6 +23,9 @@ namespace StepMotorTest
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            movesListView.ItemsSource = null;
+            movesListView.ItemsSource = (BindingContext as Recipe).Moves;
         }
 
         async void MovesListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -46,7 +49,7 @@ namespace StepMotorTest
 
         async void SaveRecipeButton_Clicked(object sender, EventArgs e)
         {
-            Recipe recipe = new Recipe();
+            Recipe recipe = (BindingContext as Recipe);
             recipe.Name = entryRecipeName.Text;
             recipe.Moves = (movesListView.ItemsSource as List<Move>);
 
@@ -61,15 +64,10 @@ namespace StepMotorTest
         async void DeleteRecipeButton_Clicked(object sender, EventArgs e)
         {
             Recipe recipe = (BindingContext as Recipe);
-            if (App.Database.ContainsRecipe(recipe.ID))
-            {
-                App.Database.DeleteRecipe(recipe.ID);
+            if (App.Database.DeleteRecipe(recipe.ID))
                 await Navigation.PopAsync();
-            }
             else
-            {
                 await DisplayAlert("Error", "Recipe does not exist in the Database! Can't delete it.", "Ok");
-            }
         }
 
         async void CancelRecipeButton_Clicked(object sender, EventArgs e)

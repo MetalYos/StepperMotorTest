@@ -27,7 +27,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.33*" />
                     <ColumnDefinition Width="0.33*" />
-                    <ColumnDefinition Width="0.33*" />
+                    <ColumnDefinition Width="0.34*" />
                 </Grid.ColumnDefinitions>
                 <Button x:Name="saveRecipeButton"
                         Text="Save"
@@ -44,8 +44,8 @@
             <Button x:Name="goRecipeButton"
                     Text="Go!"
                     BackgroundColor="Green"
-                    TextColor="Red"
-                    BorderRadius="50"
+                    TextColor="White"
+                    BorderRadius="100"
                     Clicked="GoRecipeButton_Clicked"/>
         </StackLayout>
     </ContentPage.Content>

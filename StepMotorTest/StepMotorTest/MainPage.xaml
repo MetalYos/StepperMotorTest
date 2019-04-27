@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:StepMotorTest"
              x:Class="StepMotorTest.MainPage">
 
-    <StackLayout>
+    <StackLayout Margin="20,35,20,20">
         <Label Text="Welcome to AIMMM" 
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand" />
