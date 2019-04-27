@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Text;
 using Xamarin.Forms;
@@ -15,7 +16,7 @@ namespace StepMotorTest.iOS
 {
     public class BluetoothHelper : IBluetoothHelper
     {
-        public bool Connect(string name)
+        public Task<bool> Connect(string name)
         {
             throw new NotImplementedException();
         }
