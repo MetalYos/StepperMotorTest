@@ -5,6 +5,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.IO;
+using System.Diagnostics;
 
 using StepMotorTest.Models;
 
@@ -27,7 +28,6 @@ namespace StepMotorTest.Data
             }
             else
             {
-                // Desrialize
                 LoadRecipes();
             }
         }
@@ -48,10 +48,20 @@ namespace StepMotorTest.Data
             return null;
         }
 
-        public void SaveRecipe(Recipe recipe)
+        public void AddRecipe(Recipe recipe)
         {
             recipes.Add(recipe);
             changesCounts++;
+            SaveRecipes();
+        }
+
+        public void AddMoveToRecipe(Move move)
+        {
+            if (ContainsMove(move))
+                return;
+
+            Recipe recipe = GetRecipe(move.RecipeID);
+            recipe.Moves.Add(move);
             SaveRecipes();
         }
 
@@ -64,7 +74,6 @@ namespace StepMotorTest.Data
                     int index = recipes.IndexOf(recipe);
                     recipes.Insert(index, updatedRecipe);
                     recipes.Remove(recipe);
-                    changesCounts++;
                     SaveRecipes();
                     return true;
                 }
@@ -73,23 +82,49 @@ namespace StepMotorTest.Data
             return false;
         }
 
-        public bool DeleteRecipe(int id)
+        public bool UpdateMove(Move updatedMove)
         {
-            foreach (var recipe in recipes)
+            if (!ContainsMove(updatedMove))
+                return false;
+
+            Recipe recipe = GetRecipe(updatedMove.RecipeID);
+            foreach (var item in recipe.Moves)
             {
-                if (recipe.ID == id)
+                if (item.ID == updatedMove.ID)
                 {
-                    recipes.Remove(recipe);
-                    changesCounts++;
+                    int index = recipe.Moves.IndexOf(item);
+                    recipe.Moves.Insert(index, updatedMove);
+                    recipe.Moves.Remove(item);
                     SaveRecipes();
                     return true;
                 }
             }
-
             return false;
         }
 
-        public bool Contains(int id)
+        public bool DeleteRecipe(int id)
+        {
+            Recipe recipe = GetRecipe(id);
+            if (recipe == null)
+                return false;
+
+            recipes.Remove(recipe);
+            SaveRecipes();
+            return true;
+        }
+
+        public bool DeleteMove(Move move)
+        {
+            if (!ContainsMove(move))
+                return false;
+
+            Recipe recipe = GetRecipe(move.RecipeID);
+            recipe.Moves.Remove(move);
+            SaveRecipes();
+            return false;
+        }
+
+        public bool ContainsRecipe(int id)
         {
             foreach (var recipe in recipes)
             {
@@ -100,7 +135,21 @@ namespace StepMotorTest.Data
             return false;
         }
 
-        private void LoadRecipes()
+        public bool ContainsMove(Move move)
+        {
+            if (!ContainsRecipe(move.RecipeID))
+                return false;
+
+            Recipe recipe = GetRecipe(move.RecipeID);
+            foreach (var item in recipe.Moves)
+            {
+                if (item.ID == move.ID)
+                    return true;
+            }
+            return false;
+        }
+
+        public void LoadRecipes()
         {
             try
             {
@@ -112,12 +161,14 @@ namespace StepMotorTest.Data
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.Source + "\n" + e.Message);
                 recipes = new List<Recipe>();
             }
         }
 
-        private void SaveRecipes()
+        public void SaveRecipes()
         {
+            changesCounts++;
             if (changesCounts == changesLimit)
             {
                 try
@@ -131,7 +182,7 @@ namespace StepMotorTest.Data
                 }
                 catch (Exception e)
                 {
-                    int t = 7;
+                    Debug.WriteLine(e.Source + "\n" + e.Message);
                 }
             }
         }

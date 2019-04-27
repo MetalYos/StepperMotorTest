@@ -28,7 +28,7 @@ namespace StepMotorTest
         async void SaveMoveButton_Clicked(object sender, EventArgs e)
         {
             Move updatedMove = (BindingContext as Move);
-            if (App.Database.Contains(updatedMove.RecipeID))
+            if (App.Database.ContainsRecipe(updatedMove.RecipeID))
             {
                 Recipe recipe = App.Database.GetRecipe(updatedMove.RecipeID);
                 foreach (var move in recipe.Moves)
@@ -52,7 +52,7 @@ namespace StepMotorTest
         async void DeleteMoveButton_Clicked(object sender, EventArgs e)
         {
             Move currentMove = (BindingContext as Move);
-            if (App.Database.Contains(currentMove.RecipeID))
+            if (App.Database.ContainsRecipe(currentMove.RecipeID))
             {
                 Recipe recipe = App.Database.GetRecipe(currentMove.RecipeID);
                 foreach (var move in recipe.Moves)

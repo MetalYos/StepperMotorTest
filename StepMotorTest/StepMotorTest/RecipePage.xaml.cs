@@ -50,10 +50,10 @@ namespace StepMotorTest
             recipe.Name = entryRecipeName.Text;
             recipe.Moves = (movesListView.ItemsSource as List<Move>);
 
-            if (App.Database.Contains(recipe.ID))
+            if (App.Database.ContainsRecipe(recipe.ID))
                 App.Database.UpdateRecipe(recipe);
             else
-                App.Database.SaveRecipe(recipe);
+                App.Database.AddRecipe(recipe);
 
             await Navigation.PopAsync();
         }
@@ -61,7 +61,7 @@ namespace StepMotorTest
         async void DeleteRecipeButton_Clicked(object sender, EventArgs e)
         {
             Recipe recipe = (BindingContext as Recipe);
-            if (App.Database.Contains(recipe.ID))
+            if (App.Database.ContainsRecipe(recipe.ID))
             {
                 App.Database.DeleteRecipe(recipe.ID);
                 await Navigation.PopAsync();
