@@ -6,8 +6,21 @@
 
     <StackLayout Margin="20,35,20,20">
         <Label Text="Welcome to AIMMM" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
+               FontAttributes="Bold"
+               FontSize="Medium" 
+               HorizontalOptions="Center" 
+               VerticalOptions="CenterAndExpand" />
+        <Label Text="Paired Bluetooth devices"
+               HorizontalOptions="Start" />
+        <ListView x:Name="btDevicesListView"
+                  ItemSelected="BtDevicesListView_ItemSelected">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}"
+                              Detail="{Binding Address}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
         <Button Text="Recipes"
                 Clicked="OnRecipesButtonClicked" />
     </StackLayout>
